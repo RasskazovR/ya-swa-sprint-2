@@ -1,0 +1,106 @@
+services:
+#
+# Mongo
+#
+  config-server:
+    image: mongo:latest
+    container_name: config-server
+    restart: always
+    ports:
+      - "27017:27017"
+    networks:
+      sprint-network:
+        ipv4_address: 173.27.0.10
+    volumes:
+      - config-data:/data/db
+    command:
+      [
+        "--configsvr",
+        "--replSet",
+        "config_server",
+        "--bind_ip_all",
+        "--port",
+        "27017"
+      ]
+    healthcheck:
+      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+      interval: 5s
+      start_period: 10s
+
+  shard-one:
+    image: mongo:latest
+    container_name: shard-one
+    restart: always
+    ports:
+      - "27018:27018"
+    networks:
+      sprint-network:
+        ipv4_address: 173.27.0.9
+    volumes:
+      - shard-one-data:/data/db
+    command:
+      [
+        "--shardsvr",
+        "--replSet",
+        "shard-one",
+        "--bind_ip_all",
+        "--port",
+        "27018"
+      ]
+    healthcheck:
+      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+      interval: 5s
+      start_period: 10s
+
+  mongo-router:
+    image: mongo:latest
+    container_name: mongo-router
+    restart: always
+    ports:
+      - "27020:27020"
+    networks:
+      sprint-network:
+        ipv4_address: 173.17.0.7
+    command:
+      [
+        "mongos",
+        "--configdb",
+        "config_server/configSrv:27017",
+        "--bind_ip_all",
+        "--port",
+        "27020"
+      ]
+    healthcheck:
+      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+      interval: 5s
+      start_period: 10s
+#
+# App
+#
+  pymongo_api:
+    container_name: pymongo_api
+    build:
+      context: api_app
+      dockerfile: Dockerfile
+    image: kazhem/pymongo_api:1.0.0
+    depends_on:
+      - mongodb1
+    ports:
+      - 8080:8080
+    networks:
+      sprint-network:
+        ipv4_address: 173.27.0.50
+    environment:
+      MONGODB_URL: "mongodb://mongodb1"
+      MONGODB_DATABASE_NAME: "somedb"
+
+volumes:
+  shard-one-data:
+
+networks:
+  sprint-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 173.27.0.0/16
