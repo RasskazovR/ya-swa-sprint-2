@@ -43,7 +43,7 @@ echo -e "\n"
 echo -e "\n --- Ожидаем запуск роутера"
 for i in {1..15}; do
   sleep 1;
-  echo "."
+  echo -n "."
 done
 echo -e "!\n"
 
