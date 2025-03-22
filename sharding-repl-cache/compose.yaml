@@ -1,0 +1,200 @@
+name: sharding-repl-cache
+services:
+#
+# Mongo
+#
+  rr-config-server:
+    image: mongo:latest
+    container_name: rr-config-server
+    restart: always
+    ports:
+      - "27017:27017"
+    networks:
+      rr-sprint-2-network:
+        ipv4_address: 173.27.0.10
+    volumes:
+      - rr-config-data:/data/db
+    command:
+      [
+        "--configsvr",
+        "--replSet",
+        "rr-config-server", # имя сервера конфигурационного сервера
+        "--bind_ip_all",
+        "--port",
+        "27017"
+      ]
+    healthcheck:
+      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+      interval: 5s
+      start_period: 10s
+
+  rr-shard-one:
+    image: mongo:latest
+    container_name: rr-shard-one
+    restart: always
+    ports:
+      - "27018:27018"
+    networks:
+      rr-sprint-2-network:
+        ipv4_address: 173.27.0.9
+    volumes:
+      - rr-shard-one-data:/data/db
+    command:
+      [
+        "--shardsvr",
+        "--replSet",
+        "rr-shard-one", # название шарда / сета реплик
+        "--bind_ip_all",
+        "--port",
+        "27018"
+      ]
+    healthcheck:
+      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+      interval: 5s
+      start_period: 10s
+
+  rr-shard-one-r1:
+    image: mongo:latest
+    container_name: rr-shard-one-r1
+    restart: always
+    ports:
+      - "27028:27028"
+    networks:
+      rr-sprint-2-network:
+        ipv4_address: 173.27.0.29
+    volumes:
+      - rr-shard-one-r1-data:/data/db
+    command:
+      [
+        "--shardsvr",
+        "--replSet",
+        "rr-shard-one", # название шарда / сета реплик
+        "--bind_ip_all",
+        "--port",
+        "27028"
+      ]
+    healthcheck:
+      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+      interval: 5s
+      start_period: 10s
+
+  rr-shard-two:
+    image: mongo:latest
+    container_name: rr-shard-two
+    restart: always
+    ports:
+      - "27019:27019"
+    networks:
+      rr-sprint-2-network:
+        ipv4_address: 173.27.0.8
+    volumes:
+      - rr-shard-two-data:/data/db
+    command:
+      [
+        "--shardsvr",
+        "--replSet",
+        "rr-shard-two", # название шарда / сета реплик
+        "--bind_ip_all",
+        "--port",
+        "27019"
+      ]
+    healthcheck:
+      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+      interval: 5s
+      start_period: 10s
+
+  rr-shard-two-r1:
+    image: mongo:latest
+    container_name: rr-shard-two-r1
+    restart: always
+    ports:
+      - "27029:27029"
+    networks:
+      rr-sprint-2-network:
+        ipv4_address: 173.27.0.28
+    volumes:
+      - rr-shard-two-r1-data:/data/db
+    command:
+      [
+        "--shardsvr",
+        "--replSet",
+        "rr-shard-two", # название шарда / сета реплик
+        "--bind_ip_all",
+        "--port",
+        "27029"
+      ]
+    healthcheck:
+      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+      interval: 5s
+      start_period: 10s
+
+  rr-mongo-router:
+    image: mongo:latest
+    container_name: rr-mongo-router
+    restart: always
+    ports:
+      - "27020:27020"
+    networks:
+      rr-sprint-2-network:
+        ipv4_address: 173.27.0.7
+    command:
+      [
+        "mongos",
+        "--configdb",
+        "rr-config-server/rr-config-server:27017",
+        "--bind_ip_all",
+        "--port",
+        "27020"
+      ]
+    healthcheck:
+      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+      interval: 5s
+      start_period: 10s
+#
+# Redis
+#
+  rr-redis:
+    image: "redis:latest"
+    container_name: rr-redis
+    ports:
+      - "6379"
+    volumes:
+      - rr-redis-data:/data
+    command: [ "redis-server", "--appendonly yes" ]
+    networks:
+      rr-sprint-2-network:
+        ipv4_address: 173.27.0.77
+#
+# App
+#
+  rr-pymongo-api:
+    container_name: rr-pymongo-api
+    build:
+      context: api_app
+      dockerfile: Dockerfile
+    image: kazhem/pymongo_api:1.0.0
+    ports:
+      - 8080:8080
+    networks:
+      rr-sprint-2-network:
+        ipv4_address: 173.27.0.50
+    environment:
+      MONGODB_URL: "mongodb://173.27.0.7:27020"
+      MONGODB_DATABASE_NAME: "somedb"
+      REDIS_URL: "redis://rr-redis:6379"
+
+volumes:
+  rr-config-data:
+  rr-shard-one-data:
+  rr-shard-one-r1-data:
+  rr-shard-two-data:
+  rr-shard-two-r1-data:
+  rr-redis-data:
+
+networks:
+  rr-sprint-2-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 173.27.0.0/16
