@@ -53,6 +53,31 @@ services:
       interval: 5s
       start_period: 10s
 
+  rr-shard-two:
+    image: mongo:latest
+    container_name: rr-shard-two
+    restart: always
+    ports:
+      - "27019:27019"
+    networks:
+      rr-sprint-2-network:
+        ipv4_address: 173.27.0.8
+    #volumes:
+    #  - rr-shard-two-data:/data/db
+    command:
+      [
+        "--shardsvr",
+        "--replSet",
+        "rr-shard-two", # название шарда
+        "--bind_ip_all",
+        "--port",
+        "27018"
+      ]
+    healthcheck:
+      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+      interval: 5s
+      start_period: 10s
+
   rr-mongo-router:
     image: mongo:latest
     container_name: rr-mongo-router
@@ -78,8 +103,8 @@ services:
 #
 # App
 #
-  pymongo_api:
-    container_name: pymongo_api
+  rr-pymongo-api:
+    container_name: rr-pymongo-api
     build:
       context: api_app
       dockerfile: Dockerfile
@@ -96,6 +121,7 @@ services:
 #volumes:
 #  rr-config-data:
 #  rr-shard-one-data:
+#  rr-shard-two-data:
 
 networks:
   rr-sprint-2-network:
