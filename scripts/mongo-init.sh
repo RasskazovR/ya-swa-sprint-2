@@ -16,11 +16,12 @@ rs.initiate(
 );
 exit();
 EOF
+echo -e "\n"
 
 ###
 # Инициализация первого шарда
 ###
-echo -e "\n\n--Инициализация первого шарда--\n"
+echo -e "\n--Инициализация первого шарда--\n"
 docker exec -i rr-shard-one mongosh --port 27018 --quiet <<EOF
 rs.initiate(
   {
@@ -34,6 +35,7 @@ rs.initiate(
 );
 exit();
 EOF
+echo -e "\n"
 
 ###
 # Инициализируем бд
