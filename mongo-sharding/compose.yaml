@@ -71,7 +71,7 @@ services:
         "rr-shard-two", # название шарда
         "--bind_ip_all",
         "--port",
-        "27018"
+        "27019"
       ]
     healthcheck:
       test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
