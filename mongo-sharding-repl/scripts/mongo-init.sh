@@ -25,7 +25,7 @@ echo -e "\n--Инициализация первого шарда--\n"
 docker exec -i rr-shard-one mongosh --port 27018 --quiet <<EOF
 rs.initiate(
   {
-    _id:"rr-shard-one",
+    _id:"rr-shard-one-test",
     members: [
       {
         _id: 0, host:"rr-shard-one:27018",
