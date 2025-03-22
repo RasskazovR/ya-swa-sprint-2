@@ -68,7 +68,7 @@ services:
       [
         "--shardsvr",
         "--replSet",
-        "rr-shard-one-r1", # название реплики шарда
+        "rr-shard-one", # название шарда
         "--bind_ip_all",
         "--port",
         "27028"
@@ -77,7 +77,6 @@ services:
       test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
       interval: 5s
       start_period: 10s
-  
 
   rr-shard-two:
     image: mongo:latest
