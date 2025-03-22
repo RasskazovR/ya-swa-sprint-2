@@ -182,7 +182,7 @@ services:
     environment:
       MONGODB_URL: "mongodb://173.27.0.7:27020"
       MONGODB_DATABASE_NAME: "somedb"
-      REDIS_URL: ""
+      REDIS_URL: "redis://rr-redis:6379"
 
 #volumes:
 #  rr-config-data:
