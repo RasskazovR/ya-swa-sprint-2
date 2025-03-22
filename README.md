@@ -1,35 +1,9 @@
-# pymongo-api
+# Yandex SWA Sprint 2
 
 ## Как запустить
 
-Запускаем mongodb и приложение
+### Задание 2-4
+Перейти в директорию `sharding-repl-cache` и следовать инструкциям из `README.md`
 
-```shell
-docker compose up -d
-```
-
-Заполняем mongodb данными
-
-```shell
-./scripts/mongo-init.sh
-```
-
-## Как проверить
-
-### Если вы запускаете проект на локальной машине
-
-Откройте в браузере http://localhost:8080
-
-### Если вы запускаете проект на предоставленной виртуальной машине
-
-Узнать белый ip виртуальной машины
-
-```shell
-curl --silent http://ifconfig.me
-```
-
-Откройте в браузере http://<ip виртуальной машины>:8080
-
-## Доступные эндпоинты
-
-Список доступных эндпоинтов, swagger http://<ip виртуальной машины>:8080/docs
+## Итоговая схема
+В файле `mongo-scheme-final.drawio` или по ссылке https://drive.google.com/file/d/1AXdX3wuGYF_R9TeKFbTLeUDyNXjt38We/view?usp=sharing
