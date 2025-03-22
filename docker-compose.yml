@@ -2,9 +2,9 @@ services:
 #
 # Mongo
 #
-  config-server:
+  rr-config-server:
     image: mongo:latest
-    container_name: config-server
+    container_name: rr-config-server
     restart: always
     ports:
       - "27017:27017"
@@ -12,12 +12,12 @@ services:
       sprint-network:
         ipv4_address: 173.27.0.10
     volumes:
-      - config-data:/data/db
+      - rr-config-data:/data/db
     command:
       [
         "--configsvr",
         "--replSet",
-        "config_server",
+        "rr-config-server", # имя сервера конфигурационного сервера
         "--bind_ip_all",
         "--port",
         "27017"
@@ -27,9 +27,9 @@ services:
       interval: 5s
       start_period: 10s
 
-  shard-one:
+  rr-shard-one:
     image: mongo:latest
-    container_name: shard-one
+    container_name: rr-shard-one
     restart: always
     ports:
       - "27018:27018"
@@ -37,12 +37,12 @@ services:
       sprint-network:
         ipv4_address: 173.27.0.9
     volumes:
-      - shard-one-data:/data/db
+      - rr-shard-one-data:/data/db
     command:
       [
         "--shardsvr",
         "--replSet",
-        "shard-one",
+        "rr-shard-one", # название шарда
         "--bind_ip_all",
         "--port",
         "27018"
@@ -52,9 +52,9 @@ services:
       interval: 5s
       start_period: 10s
 
-  mongo-router:
+  rr-mongo-router:
     image: mongo:latest
-    container_name: mongo-router
+    container_name: rr-mongo-router
     restart: always
     ports:
       - "27020:27020"
@@ -65,7 +65,7 @@ services:
       [
         "mongos",
         "--configdb",
-        "config_server/configSrv:27017",
+        "config_server/rr-config-server:27017",
         "--bind_ip_all",
         "--port",
         "27020"
@@ -93,8 +93,8 @@ services:
       MONGODB_DATABASE_NAME: "somedb"
 
 volumes:
-  config-data:
-  shard-one-data:
+  rr-config-data:
+  rr-shard-one-data:
 
 networks:
   sprint-network:
