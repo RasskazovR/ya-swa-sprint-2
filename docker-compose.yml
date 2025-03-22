@@ -89,7 +89,7 @@ services:
       sprint-network:
         ipv4_address: 173.27.0.50
     environment:
-      MONGODB_URL: "mongodb://mongodb1"
+      MONGODB_URL: "mongodb://mongo-router"
       MONGODB_DATABASE_NAME: "somedb"
 
 volumes:
