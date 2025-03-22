@@ -14,7 +14,7 @@ cd ya-swa-sprint-2/mongo-sharding-repl
 docker compose up -d
 ```
 
-Инициализируем конфигурационный сервер, шарды, роутер и заполняем БД
+Инициализируем конфигурационный сервер, шарды с репликами, роутер и заполняем БД
 
 ```shell
 bash ./scripts/mongo-init.sh
