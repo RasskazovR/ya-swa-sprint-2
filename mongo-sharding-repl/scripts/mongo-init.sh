@@ -51,6 +51,9 @@ rs.initiate(
     members: [
       {
         _id: 0, host:"rr-shard-two:27019"
+      },
+      {
+        _id: 0, host:"rr-shard-two-r1:27029"
       }
     ]
   }
@@ -122,10 +125,10 @@ db.helloDoc.countDocuments()
 exit();
 EOF
 echo -e "\n"
-#echo -e "\n--Количество документов на втором шарде--\n"
-#docker exec -i rr-shard-two mongosh --port 27019 --quiet <<EOF
-#use somedb
-#db.helloDoc.countDocuments() 
-#exit();
-#EOF
-#echo -e "\n"
+echo -e "\n--Количество документов на втором шарде--\n"
+docker exec -i rr-shard-two-r1 mongosh --port 27029 --quiet <<EOF
+use somedb
+db.helloDoc.countDocuments() 
+exit();
+EOF
+echo -e "\n"
