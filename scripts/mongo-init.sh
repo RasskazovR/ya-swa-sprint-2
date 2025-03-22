@@ -3,7 +3,7 @@
 ###
 # Инициализация сервера конфигурации
 ###
-docker exec -ti rr-config-server mongosh --port 27017 --quiet <<EOF
+docker exec -i rr-config-server mongosh --port 27017 --quiet <<EOF
 rs.initiate(
   {
     _id : "rr-config-server",
@@ -19,7 +19,7 @@ EOF
 ###
 # Инициализация первого шарда
 ###
-docker exec -ti rr-shard-one mongosh --port 27018 --quiet <<EOF
+docker exec -i rr-shard-one mongosh --port 27018 --quiet <<EOF
 rs.initiate(
   {
     _id:"rr-shard-one",
