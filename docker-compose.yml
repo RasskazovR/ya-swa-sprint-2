@@ -65,7 +65,7 @@ services:
       [
         "mongos",
         "--configdb",
-        "config_server/rr-config-server:27017",
+        "rr-config-server/rr-config-server:27017",
         "--bind_ip_all",
         "--port",
         "27020"
