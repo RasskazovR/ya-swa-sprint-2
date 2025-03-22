@@ -5,7 +5,7 @@
 Перейти в директорию с приложением
 
 ```shell
-cd ya-swa-sprint-2/mongo-sharding-repl-cache
+cd ya-swa-sprint-2/sharding-repl-cache
 ```
 
 Запускаем mongodb, redis и приложение
