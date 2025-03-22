@@ -11,8 +11,8 @@ services:
     networks:
       sprint-network:
         ipv4_address: 173.27.0.10
-    volumes:
-      - rr-config-data:/data/db
+    #volumes:
+    #  - rr-config-data:/data/db
     command:
       [
         "--configsvr",
@@ -36,8 +36,8 @@ services:
     networks:
       sprint-network:
         ipv4_address: 173.27.0.9
-    volumes:
-      - rr-shard-one-data:/data/db
+    #volumes:
+    #  - rr-shard-one-data:/data/db
     command:
       [
         "--shardsvr",
@@ -92,9 +92,9 @@ services:
       MONGODB_URL: "mongodb://173.27.0.7:27020"
       MONGODB_DATABASE_NAME: "somedb"
 
-volumes:
-  rr-config-data:
-  rr-shard-one-data:
+#volumes:
+#  rr-config-data:
+#  rr-shard-one-data:
 
 networks:
   sprint-network:
