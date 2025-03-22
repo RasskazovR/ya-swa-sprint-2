@@ -29,7 +29,7 @@ rs.initiate(
     members: [
       {
         _id: 0, host:"rr-shard-one:27018",
-        _id: 0, host:"rr-shard-one-r1:27028"
+        _id: 1, host:"rr-shard-one-r1:27028"
       }
     ]
   }
