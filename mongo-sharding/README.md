@@ -2,16 +2,22 @@
 
 ## Как запустить
 
+Перейти в директорию с приложением
+
+```shell
+cd ya-swa-sprint-2/mongo-sharding
+```
+
 Запускаем mongodb и приложение
 
 ```shell
 docker compose up -d
 ```
 
-Заполняем mongodb данными
+Инициализируем mongo с шардами и заполняем БД
 
 ```shell
-./scripts/mongo-init.sh
+bash ./scripts/mongo-init.sh
 ```
 
 ## Как проверить
