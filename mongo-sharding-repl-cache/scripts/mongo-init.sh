@@ -125,7 +125,7 @@ db.helloDoc.countDocuments()
 exit();
 EOF
 echo -e "\n"
-echo -e "\n--Количество документов на втором шарде--\n"
+echo -e "\n--Количество документов на реплике второго шарда--\n"
 docker exec -i rr-shard-two-r1 mongosh --port 27029 --quiet <<EOF
 use somedb
 db.helloDoc.countDocuments() 
