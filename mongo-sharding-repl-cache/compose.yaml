@@ -161,7 +161,7 @@ services:
     #volumes:
       #- rr-redis-data:/data
       #- ./redis/redis.conf:/usr/local/etc/redis/redis.conf
-    command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+    command: [ "redis-server", "--appendonly yes" ]
     networks:
       rr-sprint-2-network:
         ipv4_address: 173.27.0.77
