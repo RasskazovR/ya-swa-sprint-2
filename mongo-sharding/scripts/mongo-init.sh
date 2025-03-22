@@ -90,3 +90,21 @@ db.helloDoc.countDocuments()
 exit();
 EOF
 echo -e "\n"
+
+###
+# Проверка шардов
+###
+echo -e "\n--Количество документов на первом шарде--\n"
+docker exec -i rr-shard-one mongosh --port 27018 --quiet <<EOF
+use somedb
+db.helloDoc.countDocuments() 
+exit();
+EOF
+echo -e "\n"
+echo -e "\n--Количество документов на втором шарде--\n"
+docker exec -i rr-shard-two mongosh --port 27019 --quiet <<EOF
+use somedb
+db.helloDoc.countDocuments() 
+exit();
+EOF
+echo -e "\n"
