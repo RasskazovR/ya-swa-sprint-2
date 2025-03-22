@@ -60,7 +60,7 @@ services:
       - "27020:27020"
     networks:
       sprint-network:
-        ipv4_address: 173.17.0.7
+        ipv4_address: 173.27.0.7
     command:
       [
         "mongos",
