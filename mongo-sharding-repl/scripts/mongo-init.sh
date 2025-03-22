@@ -53,7 +53,7 @@ rs.initiate(
         _id: 0, host:"rr-shard-two:27019"
       },
       {
-        _id: 0, host:"rr-shard-two-r1:27029"
+        _id: 1, host:"rr-shard-two-r1:27029"
       }
     ]
   }
