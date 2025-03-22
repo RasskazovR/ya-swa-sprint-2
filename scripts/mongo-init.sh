@@ -38,11 +38,25 @@ EOF
 echo -e "\n"
 
 ###
-# Инициализируем бд
+# Иницализация роутера
 ###
+echo -e "\n--Инициализация роутера--\n"
+docker exec -i rr-mongo-router mongosh --port 27020 --quiet <<EOF
+sh.addShard( "rr-shard-one/rr-shard-one:27018");
+sh.enableSharding("somedb");
+sh.shardCollection("somedb.helloDoc", { "name" : "hashed" } )
+exit();
+EOF
+echo -e "\n"
 
-#docker compose exec -T shard-one mongosh <<EOF
-#use somedb
-#for(var i = 0; i < 1000; i++) db.helloDoc.insertOne({age:i, name:"ly"+i})
-#EOF
-
+###
+# Иницализация БД
+###
+echo -e "\n--Инициализация БД--\n"
+docker exec -i rr-mongo-router mongosh --port 27020 --quiet <<EOF
+use somedb
+for(var i = 0; i < 1000; i++) db.helloDoc.insertOne({age:i, name:"ly"+i})
+db.helloDoc.countDocuments() 
+exit();
+EOF
+echo -e "\n"
