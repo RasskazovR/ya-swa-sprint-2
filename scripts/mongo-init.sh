@@ -1,6 +1,9 @@
 #!/bin/bash
 
-docker compose exec -ti rr-config-server mongosh --port 27017 --quiet <<EOF
+###
+# Инициализация сервера конфигурации
+###
+docker exec -ti rr-config-server mongosh --port 27017 --quiet <<EOF
 rs.initiate(
   {
     _id : "rr-config-server",
@@ -13,9 +16,22 @@ rs.initiate(
 exit();
 EOF
 
-#docker compose exec -T <service-name> mongosh --port <mongo port> --quiet <<EOF
-#<mongosh commands here>
-#EOF 
+###
+# Инициализация первого шарда
+###
+docker exec -ti rr-shard-one mongosh --port 27018 --quiet <<EOF
+rs.initiate(
+  {
+    _id:"rr-shard-one",
+    members: [
+      {
+        _id: 0, host:"rr-shard-one:27018"
+      }
+    ]
+  }
+);
+exit();
+EOF
 
 ###
 # Инициализируем бд
