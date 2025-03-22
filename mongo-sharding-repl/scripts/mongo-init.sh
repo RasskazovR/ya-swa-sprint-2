@@ -28,7 +28,8 @@ rs.initiate(
     _id:"rr-shard-one",
     members: [
       {
-        _id: 0, host:"rr-shard-one:27018"
+        _id: 0, host:"rr-shard-one:27018",
+        _id: 0, host:"rr-shard-one-r1:27028"
       }
     ]
   }
@@ -108,3 +109,21 @@ db.helloDoc.countDocuments()
 exit();
 EOF
 echo -e "\n"
+
+###
+# Проверка реплик шардов
+###
+echo -e "\n--Количество документов на реплике первого шарда--\n"
+docker exec -i rr-shard-one-r1 mongosh --port 27028 --quiet <<EOF
+use somedb
+db.helloDoc.countDocuments() 
+exit();
+EOF
+echo -e "\n"
+#echo -e "\n--Количество документов на втором шарде--\n"
+#docker exec -i rr-shard-two mongosh --port 27019 --quiet <<EOF
+#use somedb
+#db.helloDoc.countDocuments() 
+#exit();
+#EOF
+#echo -e "\n"

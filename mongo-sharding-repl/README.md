@@ -1,11 +1,11 @@
-# Yandex SWA Sprint 2 - Задание 2 - Шардирование
+# Yandex SWA Sprint 2 - Задание 3 - Репликация
 
 ## Как запустить
 
 Перейти в директорию с приложением
 
 ```shell
-cd ya-swa-sprint-2/mongo-sharding
+cd ya-swa-sprint-2/mongo-sharding-repl
 ```
 
 Запускаем mongodb и приложение
