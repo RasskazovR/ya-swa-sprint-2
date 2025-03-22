@@ -12,8 +12,8 @@ services:
     networks:
       rr-sprint-2-network:
         ipv4_address: 173.27.0.10
-    #volumes:
-    #  - rr-config-data:/data/db
+    volumes:
+      - rr-config-data:/data/db
     command:
       [
         "--configsvr",
@@ -37,13 +37,13 @@ services:
     networks:
       rr-sprint-2-network:
         ipv4_address: 173.27.0.9
-    #volumes:
-    #  - rr-shard-one-data:/data/db
+    volumes:
+      - rr-shard-one-data:/data/db
     command:
       [
         "--shardsvr",
         "--replSet",
-        "rr-shard-one", # название шарда
+        "rr-shard-one", # название шарда / сета реплик
         "--bind_ip_all",
         "--port",
         "27018"
@@ -62,13 +62,13 @@ services:
     networks:
       rr-sprint-2-network:
         ipv4_address: 173.27.0.29
-    #volumes:
-    #  - rr-shard-one-r1-data:/data/db
+    volumes:
+      - rr-shard-one-r1-data:/data/db
     command:
       [
         "--shardsvr",
         "--replSet",
-        "rr-shard-one", # название шарда
+        "rr-shard-one", # название шарда / сета реплик
         "--bind_ip_all",
         "--port",
         "27028"
@@ -87,13 +87,13 @@ services:
     networks:
       rr-sprint-2-network:
         ipv4_address: 173.27.0.8
-    #volumes:
-    #  - rr-shard-two-data:/data/db
+    volumes:
+      - rr-shard-two-data:/data/db
     command:
       [
         "--shardsvr",
         "--replSet",
-        "rr-shard-two", # название шарда
+        "rr-shard-two", # название шарда / сета реплик
         "--bind_ip_all",
         "--port",
         "27019"
@@ -112,13 +112,13 @@ services:
     networks:
       rr-sprint-2-network:
         ipv4_address: 173.27.0.28
-    #volumes:
-    #  - rr-shard-two-r1-data:/data/db
+    volumes:
+      - rr-shard-two-r1-data:/data/db
     command:
       [
         "--shardsvr",
         "--replSet",
-        "rr-shard-two", # название шарда
+        "rr-shard-two", # название шарда / сета реплик
         "--bind_ip_all",
         "--port",
         "27029"
@@ -158,9 +158,8 @@ services:
     container_name: rr-redis
     ports:
       - "6379"
-    #volumes:
-      #- rr-redis-data:/data
-      #- ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+    volumes:
+      - rr-redis-data:/data
     command: [ "redis-server", "--appendonly yes" ]
     networks:
       rr-sprint-2-network:
@@ -184,13 +183,13 @@ services:
       MONGODB_DATABASE_NAME: "somedb"
       REDIS_URL: "redis://rr-redis:6379"
 
-#volumes:
-#  rr-config-data:
-#  rr-shard-one-data:
-#  rr-shard-one-r1-data:
-#  rr-shard-two-data:
-#  rr-shard-two-r1-data:
-#  rr-redis-data:
+volumes:
+  rr-config-data:
+  rr-shard-one-data:
+  rr-shard-one-r1-data:
+  rr-shard-two-data:
+  rr-shard-two-r1-data:
+  rr-redis-data:
 
 networks:
   rr-sprint-2-network:
