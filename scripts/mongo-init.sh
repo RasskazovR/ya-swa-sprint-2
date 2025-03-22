@@ -3,6 +3,7 @@
 ###
 # Инициализация сервера конфигурации
 ###
+echo -e "\n--Инициализация конфигурационного сервера--\n"
 docker exec -i rr-config-server mongosh --port 27017 --quiet <<EOF
 rs.initiate(
   {
@@ -19,6 +20,7 @@ EOF
 ###
 # Инициализация первого шарда
 ###
+echo -e "\n--Инициализация первого шарда--\n"
 docker exec -i rr-shard-one mongosh --port 27018 --quiet <<EOF
 rs.initiate(
   {
